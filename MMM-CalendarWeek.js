@@ -145,7 +145,7 @@ Module.register("MMM-CalendarWeek", {
 		}
 
 		var events = this.createEventList();
-		var wrapper = document.createElement("table");
+		var wrapper = document.createElement("div");
 		wrapper.className = this.config.tableClass;
 
 		if (events.length === 0) {
@@ -250,19 +250,18 @@ Module.register("MMM-CalendarWeek", {
 				continue;
 			}
 
-			var col = document.createElement("td");
+			var col = document.createElement("div");
 
-			col.className = "normal col";
+			col.className = "normal col day day--" + day;
 
 			var dateAsString = moment(moment(day), "x").format(this.config.dateFormat);
 
 			if(this.config.timeFormat === "dateheaders"){
 				if(lastSeenDate !== dateAsString){
-					var dateRow = document.createElement("tr");
-					dateRow.className = "normal"
-					var dateCell = document.createElement("td");
+					var dateRow = document.createElement("div");
+					dateRow.className = "normal date-row"
+					var dateCell = document.createElement("div");
 
-					dateCell.colSpan = "3";
 					dateCell.innerHTML = this.capFirst(dateAsString);
 					dateRow.appendChild(dateCell);
 					col.appendChild(dateRow);
@@ -273,8 +272,9 @@ Module.register("MMM-CalendarWeek", {
 
 			/* Display label with empty-text */
 			if (events.length < 1) {
-				var eventWrapper = document.createElement("tr");
-				var titleWrapper = document.createElement("td");
+				var eventWrapper = document.createElement("div");
+				eventWrapper.className="event event--no-events"
+				var titleWrapper = document.createElement("div");
 
 				if (!this.config.colored) {
 					titleWrapper.className = "title bright";
@@ -292,16 +292,16 @@ Module.register("MMM-CalendarWeek", {
 			for (var e in events) {
 				var event = events[e];
 
-				var eventWrapper = document.createElement("tr");
+				var eventWrapper = document.createElement("div");
 
 				if (this.config.colored && !this.config.coloredSymbolOnly) {
 					eventWrapper.style.cssText = "color:" + this.colorForUrl(event.url);
 				}
 
-				eventWrapper.className = "normal";
+				eventWrapper.className = "normal event";
 
 				if (this.config.displaySymbol) {
-					var symbolWrapper = document.createElement("td");
+					var symbolWrapper = document.createElement("div");
 
 					if (this.config.colored && this.config.coloredSymbolOnly) {
 						symbolWrapper.style.cssText = "color:" + this.colorForUrl(event.url);
@@ -328,7 +328,7 @@ Module.register("MMM-CalendarWeek", {
 					eventWrapper.appendChild(blankCell);
 				}
 
-				var titleWrapper = document.createElement("td"),
+				var titleWrapper = document.createElement("div"),
 					repeatingCountTitle = "";
 
 				if (this.config.displayRepeatingCountTitle) {
@@ -358,7 +358,7 @@ Module.register("MMM-CalendarWeek", {
 						titleWrapper.align = "left";
 
 					}else{
-						var timeWrapper = document.createElement("td");
+						var timeWrapper = document.createElement("div");
 						timeWrapper.className = "time light";
 						timeWrapper.align = "left";
 						timeWrapper.style.paddingLeft = "2px";
@@ -389,7 +389,7 @@ Module.register("MMM-CalendarWeek", {
 
 					eventWrapper.appendChild(titleWrapper);
 				}else{
-					var timeWrapper = document.createElement("td");
+					var timeWrapper = document.createElement("div");
 
 					eventWrapper.appendChild(titleWrapper);
 					//console.log(event.today);
@@ -505,9 +505,9 @@ Module.register("MMM-CalendarWeek", {
 
 				//Display information about event description
 				if (this.config.displayDescription && event.description) {
-					var descriptionWrapper = document.createElement("tr");
-					descriptionWrapper.className = "light";
-					var iconWrapper = document.createElement("td");
+					var descriptionWrapper = document.createElement("div");
+					descriptionWrapper.className = "description__wrapper";
+					var iconWrapper = document.createElement("div");
 					iconWrapper.colSpan = "2";
 					iconWrapper.className = "symbol align-right";
 					var symbol = document.createElement("span");
@@ -519,8 +519,8 @@ Module.register("MMM-CalendarWeek", {
 					iconWrapper.appendChild(symbol);
 					descriptionWrapper.appendChild(iconWrapper);
 
-					var descriptionString = document.createElement("td");
-					descriptionString.className = "align-left";
+					var descriptionString = document.createElement("div");
+					descriptionString.className = "align-left description";
 					descriptionString.innerHTML = event.description;
 					descriptionWrapper.appendChild(descriptionString);
 
