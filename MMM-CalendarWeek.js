@@ -238,7 +238,7 @@ Module.register("MMM-CalendarWeek", {
 
 		var lastSeenDate = "";
 		var idx = 0;
-		var row = document.createElement("tr");
+		var row = document.createElement("div");
 
 		/* Generate the view */
 		for (day in upcommingDays) {
@@ -530,7 +530,8 @@ Module.register("MMM-CalendarWeek", {
 			}
 			if (idx % this.config.maximumDaysPerLine == 0 && idx > 0) {
 				wrapper.appendChild(row);
-				row = document.createElement("tr");
+				row = document.createElement("div");
+				row.className = "week-row";
 			}
 			row.appendChild(col);
 			idx = idx + 1;
